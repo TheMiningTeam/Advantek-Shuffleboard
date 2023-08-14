@@ -1,0 +1,52 @@
+﻿@model Shuffleboard.Models.BestPlayer
+@{
+ViewData["Title"] = "AFK Page";
+}
+<div class="text-center">
+    <div class="d-inline-flex flex-column p-2">
+        @* <div class="p-2 .fs-2">
+            <b>Top Player of The Day:</b>
+            <p id="lastMatch">{topPlayer}</p>
+        </div> *@
+        <hr />
+        <div class="p-2 fs-3 flex-column">
+            <b>Overall Top Player:</b>
+            <br />
+            @{
+                if (ViewBag.Exception == null)
+                {
+                    <span id="top-player" class="text-center position-relative text-gold">@Model.FirstName "@Model.Nick" @Model.LastName</span>
+                } else
+                {
+                    <span>No players found</span>
+                }
+            }
+        </div>
+        <hr />
+    </div>
+</div>
+@section Scripts {
+<script>
+    sessionStorage.removeItem("background");
+
+    /**
+     * Event listner that will redirect user back to home page on activity.
+     */
+    function activityWatcher() {
+        function activity() {
+            location.href = '/Home';
+        }
+
+        var activityEvents = [
+            'mousedown', 'mousemove', 'keydown',
+            'scroll', 'touchstart'
+        ];
+
+        activityEvents.forEach(function (eventName) {
+            document.addEventListener(eventName, activity, true);
+        });
+    }
+
+    activityWatcher();
+</script>
+}

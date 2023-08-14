@@ -1,0 +1,123 @@
+﻿@using Newtonsoft.Json
+@model IEnumerable<Player>
+    @{
+    ViewData["Title"] = "Setup";
+}
+<div class="text-center">
+    <div class="d-inline-flex flex-column p-2">
+        <div class="d-inline-flex flex-row flex-wrap">
+            <div class="flex-row p-2 justify-content-center">
+
+                @* Red player selector region *@
+                <div class="input-group mb-2 p-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text bg-danger text-light border-danger" for="red-player">RED</label>
+                    </div>
+                    <select name="red-player" required class="custom-select justify-content-center text-danger bg-light border-danger rounded-end" id="red-player">
+                        <option value="" disabled selected>Select...</option>
+                        @foreach (var item in Model) {
+                            var id = Html.DisplayFor(modelItem => item.Id);
+                            <option value="@item.Id">
+                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem =>
+                                item.LastName)
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                @* Red player score region *@
+                <div class="p-1 flex-column">
+                    <input type="number" id="red-score" class="text-center text-danger border border-2 border-danger rounded bg-light disabled" style="width: 190px; height: 50px; pointer-events:none; opacity: .5;" name="red-score" value="0" min="0" max="99" disabled aria-disabled="true" />
+                    <div class="btn-group-horizontal pt-2">
+                        <button type="button" class="btn btn-dark rounded-pill me-1 disabled" style="width: 90px;"> + </button>
+                        <button type="button" class="btn btn-dark rounded-pill ms-1 disabled" style="width: 90px;"> - </button>
+                    </div>
+                </div>
+            </div>
+
+            @* Informational region *@
+            <div class="align-self-center p-4">
+                <button type="button" class="no-button" data-bs-toggle="modal" data-bs-target="#how-to-play">
+                    <i class="bi bi-question-circle-fill text-primary"></i>
+                </button>
+                <div class="modal fade" id="how-to-play" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-fullscreen-lg-down">
+                        <div class="modal-content">
+                            <div class="modal-body" style="height: 855px; background-image: url('/images/shufl_rules_shuffleboard.png'); background-size:contain; background-repeat:no-repeat">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>vs.</p>
+                <i class="bi bi-stopwatch text-secondary"></i>
+                <div>00:00</div>
+            </div>
+
+            <div class="flex-row p-2">
+
+                 @* Blue player selector region *@
+                <div class="input-group mb-3 p-2 justify-content-start">
+                    <select name="blue-blayer" required class="custom-select justify-content-center text-info bg-light border-info rounded-start" id="blue-blayer">
+                        <option value="" disabled selected>Select...</option>
+                        @foreach (var item in Model) {
+                            <option value="@item.Id">
+                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem =>
+                                item.LastName)
+                            </option>
+                        }
+                    </select>
+                    <div class="input-group-append">
+                        <label class="input-group-text bg-info text-light border-info" for="blue-player">BLUE</label>
+                    </div>
+                </div>
+
+                @* Blue player score region *@
+                <div class="p-1 flex-column">
+                    <input type="number" id="blue-score" class="text-center text-info border border-2 border-info rounded bg-light readonly" style="width: 190px; height: 50px; pointer-events:none; opacity: .5;" name="blue-score" value="0" min="0" max="99" disabled aria-disabled="true" />
+                    <div class="btn-group-horizontal pt-2">
+                        <button type="button" class="btn btn-dark rounded-pill me-1 disabled" style="width: 90px;" name="blue-add-score">+</button>
+                        <button type="button" class="btn btn-dark rounded-pill ms-1 disabled" style="width: 90px;" name="blue-remove-score">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Start match region *@
+        <div>
+            <a id="submit" class="btn btn-primary" asp-controller="Game" asp-action="Play">Start Match</a>
+            <div class="pt-3">
+                <span class="text-danger" id="validation"></span>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        localStorage.clear();
+
+        /* List containing all players in DB */
+        var playerList = @Html.Raw(JsonConvert.SerializeObject(Model));
+
+        $("#submit").on("click", function () {
+            /* Value is playerId */
+            let rp = $("select#red-player option:selected").val();
+            let bp = $("select#blue-blayer option:selected").val();
+
+            // Why and how does this first check work??
+            if (!rp >= 1 || !bp >= 1) {
+                $("span#validation").text("Please select both players to continue!")
+                return false;
+            } else if (rp == bp) {
+                $("span#validation").text("Please select two different players!")
+                return false;
+            }
+
+            // Store both player objects in local storage.
+            localStorage.red_player = JSON.stringify(playerList.find(x => x.Id == rp));
+            localStorage.blue_player = JSON.stringify(playerList.find(x => x.Id == bp));
+        });
+    </script>
+}

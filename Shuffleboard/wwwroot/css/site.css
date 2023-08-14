@@ -1,0 +1,109 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+main {
+    position: relative;
+}
+
+main::before {
+    content: "";
+    left: -10px;
+    right: -10px;
+    top: -200px;
+    bottom: -50px;
+    background-color: rgba(255,255,255,.70);
+    /* create a new stacking context */
+    position: absolute;
+    z-index: -1; /* to be below the parent element */
+    /* TODO: ^ Figure out why it works with this, but not without */
+}
+
+body {
+  padding-top: 10%;
+  margin-bottom: 60px;
+  font-family: Arial, Helvetica, 'Times New Roman', sans-serif, serif;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+
+button.no-button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+.btn-size {
+  width: 50px;
+  height: 50px;
+}
+
+text-gold, text-silver, text-bronze {
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.text-gold {
+    transform: translate(-50%, -50%);
+    background: linear-gradient(90deg,#FFD700 33%,rgba(255,255,255,0.3) 50%,#FFD700 66%) #f6f2c0;
+    background-size: 500% 100%;
+    animation: shine 5s infinite;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+@keyframes shine {
+    0% {
+        background-position: right;
+    }
+}
+
+.text-silver {
+  color: #8a898d;
+}
+
+.text-bronze {
+    color: #cd7f32;
+}
+
+.banner {
+  height: 100px;
+}
+
+@media screen and (max-width: 999px) {
+    main::before {
+        top: -300px;
+        left: -200px;
+        right: -200px;
+    }
+    .banner {
+        height: 60px;
+    }
+}
+
+
+table.leaderboard th{
+    padding: 8px 15px 8px 15px;
+}
+table.leaderboard td {
+    font-weight: bold;
+    padding: 3px 7px 3px 7px;
+}

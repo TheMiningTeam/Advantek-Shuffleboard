@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Player>
+@{
+	ViewData["Title"] = "Leaderboard";
+}
+
+	<div class="text-center">
+		<div class="d-inline-flex flex-column p-2">
+			<div class="text-start ps-4" >
+				<a style="width:min-content;" asp-controller="Home" asp-action="StatsRefresh"><i class="bi bi-arrow-clockwise" title="Refresh Stats"></i></a>
+			</div>
+			<table class="table leaderboard table-hover">
+				<thead>
+					<tr class="text-nowrap">
+						<th>Rank</th>
+						<th>
+							Player
+						</th>
+						<th>
+							<a class="text-decoration-none text-dark" asp-action="Leaderboard" asp-route-sortOrder="@ViewData["WonSortParm"]">
+								@Html.DisplayNameFor(model => model.Won)
+							@{
+								if (ViewData["SortAfter"].ToString() != "Won")
+								{<i class="bi bi-filter"></i>}
+								else if (ViewData["WonSortParm"].ToString() == "won_rev")
+								{<i class="bi bi-sort-down"></i>}
+								else if (ViewData["WonSortParm"].ToString() == "")
+								{<i class="bi bi-sort-up"></i>}
+							}
+							</a>
+						</th>
+						<th>
+							<a class="text-decoration-none text-dark" asp-action="Leaderboard" asp-route-sortOrder="@ViewData["LostSortParm"]">
+								@Html.DisplayNameFor(model => model.Lost)
+							@{
+								if (ViewData["SortAfter"].ToString() != "Lost")
+								{<i class="bi bi-filter"></i>}
+								else if (ViewData["LostSortParm"].ToString() == "lost_rev")
+								{<i class="bi bi-sort-down"></i>}
+								else if (ViewData["LostSortParm"].ToString() == "lost")
+								{<i class="bi bi-sort-up"></i>}
+							}
+							</a>
+						</th>
+						<th>
+							<a class="text-decoration-none text-dark" asp-action="Leaderboard" asp-route-sortOrder="@ViewData["ScoreSortParm"]">
+								@Html.DisplayNameFor(model => model.TotalScore)
+							@{
+								if (ViewData["SortAfter"].ToString() != "Score")
+								{<i class="bi bi-filter"></i>}
+								else if (ViewData["ScoreSortParm"].ToString() == "score_rev")
+								{<i class="bi bi-sort-down"></i>}
+								else if (ViewData["ScoreSortParm"].ToString() == "score")
+								{<i class="bi bi-sort-up"></i>}
+							}
+							</a>
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.FavTeam)
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				@{
+					int rank = 0;
+					foreach (var item in Model) {
+						rank++;
+						<tr class="align-middle">
+							<td>
+								@* Display special badge for top 3 players *@
+
+								@if (rank == 1) {
+									<i class="bi bi-trophy-fill text-warning"></i>
+								}
+								else if (rank == 2)
+								{
+									<i class="bi bi-trophy-fill text-secondary"></i>
+								}
+								else if (rank == 3)
+								{
+									<i class="bi bi-trophy-fill text-bronze"></i>
+								}
+								else
+								{
+									@rank
+								}
+							</td>
+							<td>
+								@* Display special color for top 3 players *@
+
+								@if (rank == 1)
+								{
+								   <span class="text-gold fw-bolder">@Html.DisplayFor(modelItem => item.FirstName) "@Html.DisplayFor(modelItem => item.Nick)" @Html.DisplayFor(modelItem => item.LastName)</span>
+								}
+								else if (rank == 2)
+								{
+									<span class="text-silver text-secondary">@Html.DisplayFor(modelItem => item.FirstName) "@Html.DisplayFor(modelItem => item.Nick)" @Html.DisplayFor(modelItem => item.LastName)</span>
+								}
+								else if (rank == 3)
+								{
+									<span class="text-bronze">@Html.DisplayFor(modelItem => item.FirstName) "@Html.DisplayFor(modelItem => item.Nick)" @Html.DisplayFor(modelItem => item.LastName)</span>
+								}
+								else
+								{
+									<span>@Html.DisplayFor(modelItem => item.FirstName) "@Html.DisplayFor(modelItem => item.Nick)" @Html.DisplayFor(modelItem => item.LastName)</span>
+								}
+
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Won)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Lost)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.TotalScore)
+							</td>
+							<td>
+							@{
+								if (item.FavTeam.ToUpper() == "RED")
+								{
+									<span class="text-danger">@Html.DisplayFor(modelItem => item.FavTeam)</span>
+								}
+								else if (item.FavTeam.ToUpper() == "BLUE")
+								{
+									<span class="text-info">@Html.DisplayFor(modelItem => item.FavTeam)</span>
+								}
+								else if (item.FavTeam.ToUpper() == "NONE")
+								{
+									<span class="text-secondary">@Html.DisplayFor(modelItem => item.FavTeam)</span>
+								}
+							}
+							</td>
+						</tr>
+					}}
+				</tbody>
+			</table>
+		</div>
+	</div>

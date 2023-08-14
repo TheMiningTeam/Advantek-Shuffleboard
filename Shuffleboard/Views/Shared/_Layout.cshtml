@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Advantek Shuffleboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <noscript>
+      <META HTTP-EQUIV="Refresh" CONTENT="0;URL=Home/NoScript">
+    </noscript>
+    @RenderSection("ValidationScripts", required: false)
+    <header class="text-center">
+        <img class="banner" src=~/images/banner_logo_advantek.png/>
+        <div class="d-flex justify-content-center flex-row">
+            <div class="display-6 px-5">Shuffleboard</div>
+            <div class="btn-group dropstart">
+                <button type="button" class="no-button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="h4 bi bi-list"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a></li>
+                    <li><a class="dropdown-item" asp-controller="Game" asp-action="Index"><i class="bi bi-play-fill"></i> Play</a></li>
+                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Leaderboard"><i class="bi bi-table"></i> Leaderboard</a></li>
+                    <li><a class="dropdown-item" asp-controller="Players" asp-action="Index"><i class="bi bi-people-fill"></i> Players</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3 pt-5">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/moment-develop/dist/moment.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

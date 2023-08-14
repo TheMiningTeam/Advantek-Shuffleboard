@@ -1,0 +1,38 @@
+@model Player_Match
+@{
+ViewData["Title"] = "Contratulations!!";
+}
+
+<div class="text-center">
+	<div class="d-inline-flex flex-column p-2">
+		<div class="p-2">
+			<h1 class="display-1">Congratulations to "<span id=winner></span>" for winning!</h1>
+			<p class="display-5">Let's Goooo!</p>
+		</div>
+
+		<div class="p-2">
+			<p>Returning to Home in <span id="countdown"></span> seconds</p>
+		</div>
+	</div>
+</div>
+
+@section scripts {
+<script src="~/js/result.js"></script>
+}
+
+@section ValidationScripts {
+<script>
+	var url = '@Url.Action("Index", "Home")';
+</script>
+<script src="~/js/player-cookie-validation.js"></script>
+@* Form used to submit result to backend *@
+<form asp-action="Results" name="player-frm" hidden>
+	<input asp-for="MatchId" class="form-control" value="@ViewBag.MatchId" />
+	<input asp-for="PlayerId" class="form-control" />
+	<input asp-for="Score" class="form-control" />
+	<input class="form-check-input" asp-for="Won" />
+	<input asp-for="Color" class="form-control" />
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/match-submit.js"></script>
+}

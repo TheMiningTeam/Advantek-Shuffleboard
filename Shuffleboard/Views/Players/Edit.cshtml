@@ -1,0 +1,44 @@
+﻿@model Player
+
+@{
+ViewData["Title"] = "Create";
+}
+
+<h1>Edit</h1>
+
+<h4>Player</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div><br />
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div><br />
+            <div class="form-group">
+                <label asp-for="Nick" class="control-label"></label>
+                <input asp-for="Nick" class="form-control" />
+                <span asp-validation-for="Nick" class="text-danger"></span>
+            </div><br />
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-success btn-lg" />&ensp;
+                <a asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="bi bi-arrow-return-left"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+</div>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

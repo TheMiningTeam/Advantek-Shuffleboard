@@ -1,0 +1,31 @@
+﻿@model Shuffleboard.Models.LatestMatch
+@{
+ViewData["Title"] = "Home Page";
+}
+<div class="text-center">
+    <div class="d-inline-flex flex-column p-2">
+        <div class="p-2">
+            <a class="btn btn-primary btn-lg text-white" type="button" name="Setup" asp-controller="Game"
+                asp-action="Index">Start Match</a>
+        </div>
+        <div class="p-2 fw-bold">
+            <b>Last match:</b>
+            @{
+                if (ViewBag.Exception == null)
+                {
+                    <p id="lastMatch"><span class="text-danger">@Model.RedPlayer</span> @Model.RedScore - @Model.BlueScore <span class="text-info">@Model.BluePlayer</span> <span class="fw-normal">(@Model.MatchDate)</span></p>
+                } else
+                {
+                    <p>No records found</p>
+                }
+            }
+        </div>
+        <div class="">
+            <a class="btn btn-primary btn-lg text-white" type="button" name="Leaderboard" asp-controller="Home"
+                asp-action="Leaderboard">Leaderboard</a>
+        </div>
+    </div>
+</div>
+@section Scripts {
+<script src="~/js/afk.js"></script>
+}

@@ -1,0 +1,86 @@
+﻿@model Match
+@{
+ViewData["Title"] = "Game";
+}
+<div class="text-center">
+    <div class="d-inline-flex flex-column p-2">
+        <div class="d-inline-flex flex-row flex-wrap">
+
+            @* Red player region *@
+            <div class="flex-row p-2 justify-content-center">
+                <div class="input-group mb-2 p-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text bg-danger text-light border-danger" for="red-player">RED</label>
+                    </div>
+                    <input name="red-player" required class="custom-select justify-content-center text-danger bg-light border-danger rounded-end" readonly id="red-player">
+                </div>
+                <div class="p-1 flex-column">
+                    <input type="number" id="red-score" class="text-center text-danger border border-2 border-danger rounded bg-light readonly" style="width: 190px; height: 50px;" name="red-score" value="0" min="0" max="99" disabled aria-disabled="true" />
+                    <div class="btn-group-horizontal pt-2">
+                        <button type="button" class="btn btn-dark rounded-pill me-1" style="width: 90px;" id="red-add-score" name="red-add-score"> + </button>
+                        <button type="button" class="btn btn-dark rounded-pill ms-1" style="width: 90px;" id="red-remove-score" name="red-remove-score"> - </button>
+                    </div>
+                </div>
+            </div>
+
+            @* Informational region *@
+            <div class="align-self-center p-4">
+                <button type="button" class="no-button" data-bs-toggle="modal" data-bs-target="#how-to-play">
+                    <i class="bi bi-question-circle-fill text-primary"></i>
+                </button>
+                <div class="modal fade" id="how-to-play" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-fullscreen-lg-down">
+                        <div class="modal-content">
+                            <div class="modal-body" style="height: 855px; background-image: url('/images/shufl_rules_shuffleboard.png'); background-size:contain; background-repeat:no-repeat">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>vs.</p>
+                <i class="bi bi-stopwatch text-dark"></i><br />
+                <span class="text-dark" id="stopwatch">00:00</span>
+            </div>
+
+            @* Blue player region *@
+            <div class="flex-row p-2">
+                <div class="input-group mb-3 p-2 justify-content-start">
+                    <input name="blue-player" required class="custom-select justify-content-center text-info bg-light border-info rounded-start" readonly id="blue-player">
+                    <div class="input-group-append">
+                        <label class="input-group-text bg-info text-light border-info" for="blue-player">BLUE</label>
+                    </div>
+                </div>
+                <div class="p-1 flex-column">
+                    <input type="number" id="blue-score" class="text-center text-info border border-2 border-info rounded bg-light readonly" style="width: 190px; height: 50px;" name="blue-score" value="0" min="0" max="99" disabled aria-disabled="true" />
+                    <div class="btn-group-horizontal pt-2">
+                        <button type="button" class="btn btn-dark rounded-pill me-1" style="width: 90px;" id="blue-add-score" name="blue-add-score">+</button>
+                        <button type="button" class="btn btn-dark rounded-pill ms-1" style="width: 90px;" id="blue-remove-score" name="blue-remove-score">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Buttons region *@
+        <div>
+            <form method="post">
+                <input id="start-time" asp-for="StartTime" type="hidden" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+                <input type="submit" class="btn btn-lg btn-primary" value="End Match" id="submit">
+                <span class="text-danger" id="validation"></span>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts {
+<script src="~/js/game.js"></script>
+}
+
+@section ValidationScripts {
+<script>
+    // Url to redirect to if cookie validation fails.
+    var url = '@Url.Action("Index", "Game")';
+</script>
+<script src="~/js/player-cookie-validation.js"></script>
+}

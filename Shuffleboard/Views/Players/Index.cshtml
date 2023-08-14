@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Player>
+@{
+	ViewData["Title"] = "Players";
+}
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Created)
+			</th>
+			<th>
+				Name @* First and last names are combined *@
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Nick)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Won)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Lost)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TotalScore)
+			</th>
+			<th class="text-center">
+				<a asp-controller="Players" asp-action="Create" class="btn btn-success" title="Create New">
+					<i class="bi bi-person-plus-fill"></i>
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var obj in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => obj.Created)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => obj.FirstName) @Html.DisplayFor(modelItem => obj.LastName)
+			</td>
+			<td>
+				"@Html.DisplayFor(modelItem => obj.Nick)"
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => obj.Won)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => obj.Lost)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => obj.TotalScore)
+			</td>
+			<td class="text-center">
+				<div class="btn-group mb-3">
+					<a asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-outline-primary" title="Edit">
+						<i class="bi bi-pencil-square"></i>
+					</a>
+					<a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-outline-primary" title="Details">
+						<i class="bi bi-person-circle"></i>
+					</a>
+					<a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-outline-danger" title="Delete">
+						<i class="bi bi-trash"></i>
+					</a>
+				</div>
+			</td>
+		</tr>
+		}
+	</tbody>
+</table>
+
+@* jTable, but it doesn't work. // OR I failed to impliment it. Who knows ¯\_(ツ)_/¯
+@section Scripts {
+	<link href="~/lib/jtable/themes/basic/jtable_basic.css/>
+	<script src="~/lib/jquery-ui/dist/jquery-ui.js"></script>
+	<script src="~/lib/jtable/jquery.jtable.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //Prepare jtable plugin
+            $('#players-table').jtable({
+                title: 'Player List',
+                actions: {
+                    listAction: '/Player/Index',
+                },
+                fields: {
+                    id: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+					created: {
+                        title: 'Created',
+                        width: '18%',
+                        type: 'date',
+                        displayFormat: 'dd.mm.yy',
+                        create: false,
+                        edit: false
+                    },
+                    firstName: {
+                        title: 'First Name',
+                        width: '15%'
+                    },
+					lastName: {
+                        title: 'Last Name',
+                        width: '15%'
+                    },
+					nick: {
+                        title: 'Nickname',
+                        width: '15%'
+                    },
+					won: {
+                        title: 'Won',
+                        width: '15%'
+                    },
+					lost: {
+                        title: 'Lost',
+                        width: '15%'
+                    },
+					totalScore: {
+                        title: 'Total Score',
+                        width: '15%'
+                    },
+                }
+            });
+
+            //Load person list from server
+            $('#players-table').jtable('load');
+        });
+
+    </script>
+}
+*@
